@@ -12,7 +12,10 @@ const AppNavigator = createStackNavigator({
         screen: HomeScreen
     },
     Game: {
-        screen: GameScreen
+        screen: GameScreen,
+        navigationOptions: () => ({
+            header: null
+        })
     },
     Rule: {
         screen: RuleScreen
