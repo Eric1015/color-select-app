@@ -9,7 +9,10 @@ import RuleScreen from './screens/RuleScreen';
 
 const AppNavigator = createStackNavigator({
     Home: {
-        screen: HomeScreen
+        screen: HomeScreen,
+        navigationOptions: () => ({
+            header: null
+        })
     },
     Game: {
         screen: GameScreen,
@@ -18,7 +21,10 @@ const AppNavigator = createStackNavigator({
         })
     },
     Rule: {
-        screen: RuleScreen
+        screen: RuleScreen,
+        navigationOptions: () => ({
+            header: null
+        })
     }
 });
 
