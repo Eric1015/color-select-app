@@ -2,7 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Platform, StyleSheet, View } from 'react-native';
-import { Container, Button, Text, Icon } from 'native-base';
+import { Container, Button, Text } from 'native-base';
+import Icon from 'react-native-vector-icons/AntDesign';
 import { difficulty_list, mode_list, changeDifficulty, changeMode } from '../redux/actions/actions';
 
 class HomeScreen extends React.Component {
@@ -13,23 +14,31 @@ class HomeScreen extends React.Component {
                 <Text>{"\n"}</Text>
                 <Text style={[styles.boldText, styles.text_center]}>Difficulty</Text>
                 <View style={[styles.text_center, styles.row]}>
-                    <Button small iconLeft light disabled={this.props.difficulty_index <= 0} onPress={() => this.props.changeDifficulty(this.props.difficulty_index - 1)} >
-                        <Icon name="arrow-back" />
-                    </Button>
+                    {this.props.difficulty_index <= 0 ?
+                        <Icon name="caretleft" size={25} color="white" />
+                        :
+                        <Icon name="caretleft" size={25} color="red" onPress={() => this.props.changeDifficulty(this.props.difficulty_index - 1)}/>
+                    }
                     <Text style={styles.flex_text}>{this.props.difficulty}</Text>
-                    <Button small iconRight light disabled={this.props.difficulty_index >= difficulty_list.length - 1} onPress={() => this.props.changeDifficulty(this.props.difficulty_index + 1)}>
-                        <Icon name="arrow-forward" />
-                    </Button>
+                    {this.props.difficulty_index >= difficulty_list.length - 1 ?
+                        <Icon name="caretright" size={25} color="white" />
+                        :
+                        <Icon name="caretright" size={25} color="red" onPress={() => this.props.changeDifficulty(this.props.difficulty_index + 1)}/>
+                    }
                 </View>
                 <Text style={[styles.boldText, styles.text_center]}>Mode</Text>
                 <View style={[styles.text_center, styles.row]}>
-                    <Button small iconLeft light disabled={this.props.mode_index <= 0} onPress={() => this.props.changeMode(this.props.mode_index - 1)}>
-                        <Icon name="arrow-back" />
-                    </Button>
+                    {this.props.mode_index <= 0 ?
+                        <Icon name="caretleft" size={25} color="white" />
+                        :
+                        <Icon name="caretleft" size={25} color="red" onPress={() => this.props.changeMode(this.props.mode_index - 1)}/>
+                    }
                     <Text style={styles.flex_text}>{this.props.mode}</Text>
-                    <Button small iconRight light disabled={this.props.mode_index >= mode_list.length - 1} onPress={() => this.props.changeMode(this.props.mode_index + 1)}>
-                        <Icon name="arrow-forward" />
-                    </Button>
+                    {this.props.mode_index >= mode_list.length - 1 ?
+                        <Icon name="caretright" size={25} color="white" />
+                        :
+                        <Icon name="caretright" size={25} color="red" onPress={() => this.props.changeMode(this.props.mode_index + 1)}/>
+                    }
                 </View>
                 <View style={[styles.text_center]}>
                     <Button full rounded success onPress={() => this.props.navigation.navigate('Game')}>
@@ -59,7 +68,7 @@ const styles = StyleSheet.create({
         marginRight: "auto"
     },
     title: {
-        fontSize: 28,
+        fontSize: 30,
         color: "green",
         fontFamily: Platform.OS === 'ios' ? "AvenirNextCondensed-Heavy" : "Roboto"
     },
