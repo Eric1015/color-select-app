@@ -6,6 +6,7 @@ import store from './redux/store';
 import HomeScreen from './screens/HomeScreen';
 import GameScreen from './screens/GameScreen';
 import RuleScreen from './screens/RuleScreen';
+import EndScreen from './screens/EndScreen';
 
 const AppNavigator = createStackNavigator({
     Home: {
@@ -14,10 +15,17 @@ const AppNavigator = createStackNavigator({
             header: null
         })
     },
+    End: {
+        screen: EndScreen,
+        navigationOptions: () => ({
+            header: null
+        })
+    },
     Game: {
         screen: GameScreen,
         navigationOptions: () => ({
-            header: null
+            header: null,
+            gesturesEnabled: false
         })
     },
     Rule: {
