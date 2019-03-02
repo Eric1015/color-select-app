@@ -43,7 +43,7 @@ class HomeScreen extends React.Component {
                 <View style={[styles.text_center]}>
                     <Button full rounded success onPress={() => this.props.navigation.navigate('Game')}>
                         <Text style={styles.boldText}>
-                            Start Game
+                            Start
                         </Text>
                     </Button>
                     <Text>{"\n"}</Text>
