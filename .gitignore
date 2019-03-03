@@ -5,3 +5,6 @@ npm-debug.*
 *.p12
 *.key
 *.mobileprovision
+
+# ignore debug related files in vscode
+.vscode/*
