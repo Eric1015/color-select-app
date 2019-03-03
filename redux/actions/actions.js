@@ -56,7 +56,8 @@ export const changeColor = () => {
         for (let i = 0; i < number_of_choices[difficulty]; i++) {
             choices.push(copy.pop());
         }
-        dispatch({type: "CHANGE_COLOR", answer: choices[answer_index], choices: choices});
+        let color_index = Math.floor(Math.random() * choices.length);
+        dispatch({type: "CHANGE_COLOR", answer: choices[answer_index], choices: choices, color_index: color_index});
     }
 }
 
@@ -86,10 +87,13 @@ export const changePoint = (point) => ({
     point: point
 })
 
-function nextQuestion(dispatch) {
-    dispatch(changeColor());
-    dispatch(changeCondition());
-    dispatch(decreaseQuestionLeft());
+export const nextQuestion = () => {
+    return (dispatch, getState) => {
+        dispatch(changeColor());
+        dispatch(changeCondition());
+        dispatch(decreaseQuestionLeft());
+        dispatch(changeIsAnswered(false));
+    }
 }
 
 export const handleCorrect = () => {
@@ -108,7 +112,7 @@ export const handleCorrect = () => {
             point += 5;
         }
         dispatch(changePoint(point));
-        nextQuestion(dispatch);
+        dispatch(changeIsAnswered(true));
     }
 }
 
@@ -117,7 +121,7 @@ export const handleWrong = () => {
         let point = getState().game.point;
         point -= 5;
         dispatch(changePoint(point));
-        nextQuestion(dispatch);
+        dispatch(changeIsAnswered(true));
     }
 }
 
@@ -141,3 +145,8 @@ export const getScore = () => {
         dispatch({type: "GET_SCORE", score: point});
     }
 }
+
+export const changeIsAnswered = (isAnswered) => ({
+    type: "CHANGE_ISANSWERED",
+    isAnswered
+})

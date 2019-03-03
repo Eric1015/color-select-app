@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Container, Text, H1 } from 'native-base';
-import { changeColor, changeCondition, handleCorrect, handleWrong } from '../redux/actions/actions';
+import { changeColor, changeCondition, decreaseQuestionLeft, changeIsAnswered, handleCorrect, handleWrong } from '../redux/actions/actions';
 
 class GameScreen extends React.Component {
     constructor() {
         super();
-        this.state = { count: 3, ready: false };
+        this.state = { count: 3, ready: false, questionCount: 2, answerDisabled: false };
     }
 
     countDown = () => {
@@ -17,14 +17,49 @@ class GameScreen extends React.Component {
                 setTimeout(this.countDown, 1000);
             } else {
                 this.setState({ ready: true });
+                setTimeout(this.questionCountDown, 1000);
             }
         })
     }
 
+    questionCountDown = () => {
+        if (!this.props.isAnswered) {
+            this.setState({ questionCount: this.state.questionCount - 1}, () => {
+                if (this.state.questionCount <= 0) {
+                    this.setState({answerDisabled: true});
+                    setTimeout(this.nextQuestion, 1000);
+                } else {
+                    setTimeout(this.questionCountDown, 1000);
+                }
+            })
+        } else {
+            this.setState({answerDisabled: true});
+            setTimeout(this.nextQuestion, 1000);
+        }
+    }
+
     renderChoices = () => {
         return this.props.choices.map((choice, i) => 
-            <TouchableOpacity style={[styles.colorButton, {backgroundColor: choice }]} key={i} onPress={this.props.answer === choice ? () => this.props.handleCorrect() : () => this.props.handleWrong()}></TouchableOpacity>
+            {return this.state.answerDisabled || this.props.isAnswered ?
+                <View style={[styles.colorButton, {backgroundColor: choice }]} key={i}></View>
+                :
+                <TouchableOpacity style={[styles.colorButton, {backgroundColor: choice }]} key={i} onPress={this.props.answer === choice ? () => this.props.handleCorrect() : () => this.props.handleWrong()}></TouchableOpacity>
+            }
         )
+    }
+
+    nextQuestion = () => {
+        if (this.props.questionsLeft > 1) {
+            this.props.changeColor();
+            this.props.changeCondition();
+            this.props.decreaseQuestionLeft();
+            this.props.changeIsAnswered(false);
+            this.setState({answerDisabled: false, questionCount: 3}, () => {
+                this.questionCountDown();
+            });
+        } else if (this.props.questionsLeft === 1) {
+            this.props.decreaseQuestionLeft();
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -42,16 +77,17 @@ class GameScreen extends React.Component {
         if (this.state.ready) {
             return (
                 <Container style={[styles.container, styles.text_center]}>
-                    <Text>{this.props.questionsLeft}</Text>
+                    <Text style={styles.questionsLeft}>Q: {this.props.questionsLeft}</Text>
                     <Text>Score: {this.props.point}</Text>
+                    <Text style={styles.questionCount}>{this.state.questionCount}</Text>
                     <Text style={styles.condition}>{this.props.condition === "meaning" ? "meaning" : "color"}</Text>
                     {this.props.condition === "meaning" ?
-                        <H1 style={[styles.title, { color: this.props.choices[Math.floor(Math.random() * this.props.choices.length)] }]}>
+                        <H1 style={[styles.title, { color: this.props.choices[this.props.color_index] }]}>
                             {this.props.answer}
                         </H1>
                         :
                         <H1 style={[styles.title, { color: this.props.answer }]}>
-                            {this.props.choices[Math.floor(Math.random() * this.props.choices.length)]}
+                            {this.props.choices[this.props.color_index]}
                         </H1>
                     }
                     <Text>{"\n"}</Text>
@@ -110,20 +146,34 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 0,
         right: 10
+    },
+    questionCount: {
+        fontSize: 20,
+        color: "red",
+        fontWeight: "bold"
+    },
+    questionsLeft: {
+        position: "absolute",
+        top: 0,
+        left: 10
     }
 });
 
 const mapStateToProps = (state, ownProps) => ({
     answer: state.game.answer,
     choices: state.game.choices,
+    color_index: state.game.color_index,
     condition: state.game.condition,
     point: state.game.point,
-    questionsLeft: state.game.questionsLeft
+    questionsLeft: state.game.questionsLeft,
+    isAnswered: state.game.isAnswered
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
     changeColor: () => dispatch(changeColor()),
     changeCondition: () => dispatch(changeCondition()),
+    decreaseQuestionLeft: () => dispatch(decreaseQuestionLeft()),
+    changeIsAnswered: (isAnswered) => dispatch(changeIsAnswered(isAnswered)),
     handleCorrect: () => dispatch(handleCorrect()),
     handleWrong: () => dispatch(handleWrong())
 })
@@ -131,9 +181,11 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
 GameScreen.propTypes = {
     answer: PropTypes.string.isRequired,
     choices: PropTypes.array.isRequired,
+    color_index: PropTypes.number.isRequired,
     condition: PropTypes.string.isRequired,
     point: PropTypes.number.isRequired,
     questionsLeft: PropTypes.number.isRequired,
+    isAnswered: PropTypes.bool.isRequired,
     changeColor: PropTypes.func.isRequired,
     changeCondition: PropTypes.func.isRequired,
     handleCorrect: PropTypes.func.isRequired,
