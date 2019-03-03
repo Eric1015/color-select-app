@@ -57,6 +57,7 @@ class GameScreen extends React.Component {
                     <Text>{"\n"}</Text>
                     <Text>{"\n"}</Text>
                     <Text>{"\n"}</Text>
+                    <Text>{"\n"}</Text>
                     <View style={styles.buttonsContainer}>
                         {this.renderChoices()}
                     </View>
@@ -75,6 +76,7 @@ class GameScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         marginTop: "20%",
+        width: 326
     },
     title: {
         fontWeight: "bold",
