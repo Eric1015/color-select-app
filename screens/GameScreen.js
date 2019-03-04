@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Container, Text, H1 } from 'native-base';
-import { changeColor, changeCondition, decreaseQuestionLeft, changeIsAnswered, handleCorrect, handleWrong } from '../redux/actions/actions';
+import { changeColor, changeCondition, decreaseQuestionLeft, changeIsAnswered, changeResultText, handleCorrect, handleWrong } from '../redux/actions/actions';
 
 class GameScreen extends React.Component {
     constructor() {
@@ -54,6 +54,7 @@ class GameScreen extends React.Component {
             this.props.changeCondition();
             this.props.decreaseQuestionLeft();
             this.props.changeIsAnswered(false);
+            this.props.changeResultText("");
             this.setState({answerDisabled: false, questionCount: 3}, () => {
                 this.questionCountDown();
             });
@@ -97,6 +98,7 @@ class GameScreen extends React.Component {
                     <View style={styles.buttonsContainer}>
                         {this.renderChoices()}
                     </View>
+                    <Text style={styles.popupText}>{this.props.result_text}</Text>
                 </Container>
             )
         } else {
@@ -142,6 +144,7 @@ const styles = StyleSheet.create({
     },
     condition: {
         fontWeight: "bold",
+        fontSize: 21,
         color: "orange",
         position: "absolute",
         top: 0,
@@ -156,6 +159,13 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: 0,
         left: 10
+    },
+    popupText: {
+        position: "absolute",
+        alignSelf: "center",
+        fontSize: 25,
+        color: "red",
+        fontWeight: "bold"
     }
 });
 
@@ -166,7 +176,8 @@ const mapStateToProps = (state, ownProps) => ({
     condition: state.game.condition,
     point: state.game.point,
     questionsLeft: state.game.questionsLeft,
-    isAnswered: state.game.isAnswered
+    isAnswered: state.game.isAnswered,
+    result_text: state.game.result_text
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -174,6 +185,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     changeCondition: () => dispatch(changeCondition()),
     decreaseQuestionLeft: () => dispatch(decreaseQuestionLeft()),
     changeIsAnswered: (isAnswered) => dispatch(changeIsAnswered(isAnswered)),
+    changeResultText: (text) => dispatch(changeResultText(text)),
     handleCorrect: () => dispatch(handleCorrect()),
     handleWrong: () => dispatch(handleWrong())
 })
@@ -186,8 +198,10 @@ GameScreen.propTypes = {
     point: PropTypes.number.isRequired,
     questionsLeft: PropTypes.number.isRequired,
     isAnswered: PropTypes.bool.isRequired,
+    result_text: PropTypes.string.isRequired,
     changeColor: PropTypes.func.isRequired,
     changeCondition: PropTypes.func.isRequired,
+    changeResultText: PropTypes.func.isRequired,
     handleCorrect: PropTypes.func.isRequired,
     handleWrong: PropTypes.func.isRequired
 }

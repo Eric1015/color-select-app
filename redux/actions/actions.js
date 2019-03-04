@@ -87,15 +87,6 @@ export const changePoint = (point) => ({
     point: point
 })
 
-export const nextQuestion = () => {
-    return (dispatch, getState) => {
-        dispatch(changeColor());
-        dispatch(changeCondition());
-        dispatch(decreaseQuestionLeft());
-        dispatch(changeIsAnswered(false));
-    }
-}
-
 export const handleCorrect = () => {
     return (dispatch, getState) => {
         let difficulty = getState().game_setting.difficulty;
@@ -113,6 +104,7 @@ export const handleCorrect = () => {
         }
         dispatch(changePoint(point));
         dispatch(changeIsAnswered(true));
+        dispatch(changeResultText("Correct!!"));
     }
 }
 
@@ -122,6 +114,7 @@ export const handleWrong = () => {
         point -= 5;
         dispatch(changePoint(point));
         dispatch(changeIsAnswered(true));
+        dispatch(changeResultText("Incorrect!!"));
     }
 }
 
@@ -149,4 +142,9 @@ export const getScore = () => {
 export const changeIsAnswered = (isAnswered) => ({
     type: "CHANGE_ISANSWERED",
     isAnswered
+})
+
+export const changeResultText = (text) => ({
+    type: "CHANGE_RESULT_TEXT",
+    result_text: text
 })

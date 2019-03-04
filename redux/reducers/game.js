@@ -7,7 +7,8 @@ const initialState = {
     condition: conditions.meaning,
     point: 0,
     questionsLeft: 10,
-    isAnswered: false
+    isAnswered: false,
+    result_text: ""
 }
 
 const game = (state=initialState, action) => {
@@ -38,6 +39,11 @@ const game = (state=initialState, action) => {
             return {
                 ...state,
                 isAnswered: action.isAnswered
+            }
+        case "CHANGE_RESULT_TEXT":
+            return {
+                ...state,
+                result_text: action.result_text
             }
         case "RESET_GAME":
             return initialState;
