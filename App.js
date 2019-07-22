@@ -31,7 +31,6 @@ const AppNavigator = createStackNavigator({
     Rule: {
         screen: RuleScreen,
         navigationOptions: () => ({
-            header: null
         })
     }
 });
