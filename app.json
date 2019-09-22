@@ -27,7 +27,7 @@
             "fallbackToCacheTimeout": 0
         },
         "assetBundlePatterns": [
-            "**/*"
+            "assets/*"
         ],
         "description": "A mobile application game where players will choose the proper color given the question."
     }
