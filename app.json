@@ -1,30 +1,34 @@
 {
-  "expo": {
-    "name": "color-select-app",
-    "slug": "color-select-app",
-    "privacy": "public",
-    "sdkVersion": "32.0.0",
-    "platforms": [
-      "ios",
-      "android"
-    ],
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "description": "A mobile application game where players will choose the proper color given the question."
-  }
+    "expo": {
+        "name": "color-select-app",
+        "slug": "color-select-app",
+        "privacy": "public",
+        "sdkVersion": "32.0.0",
+        "ios": {
+            "bundleIdentifier": "com.mycompany.color-select-app",
+            "supportsTablet": true
+        },
+        "android": {
+            "package": "com.mycompany.color-select-app"
+        },
+        "platforms": [
+            "ios",
+            "android"
+        ],
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": [
+            "**/*"
+        ],
+        "description": "A mobile application game where players will choose the proper color given the question."
+    }
 }
