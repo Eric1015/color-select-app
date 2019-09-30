@@ -3,13 +3,15 @@
         "name": "color-select-app",
         "slug": "color-select-app",
         "privacy": "public",
-        "sdkVersion": "32.0.0",
+        "sdkVersion": "35.0.0",
         "ios": {
-            "bundleIdentifier": "com.mycompany.color-select-app",
+            "bundleIdentifier": "com.mycompany.colorselectapp",
             "supportsTablet": true
         },
         "android": {
-            "package": "com.mycompany.color-select-app"
+            "package": "com.mycompany.colorselectapp",
+            "permissions": [],
+            "versionCode": 2
         },
         "platforms": [
             "ios",
@@ -27,7 +29,7 @@
             "fallbackToCacheTimeout": 0
         },
         "assetBundlePatterns": [
-            "assets/*"
+            "assets**/*"
         ],
         "description": "A mobile application game where players will choose the proper color given the question."
     }
