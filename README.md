@@ -2,6 +2,10 @@
 
 A mobile application game where players will choose the proper color given the question.
 
+Find the app on Apple Store: [https://apps.apple.com/us/app/color-select/id1481496153](https://apps.apple.com/us/app/color-select/id1481496153)
+
+Find the app on Google Play Store: [https://play.google.com/store/apps/details?id=com.mycompany.colorselectapp](https://play.google.com/store/apps/details?id=com.mycompany.colorselectapp)
+
 The published expo application can be found here: [https://expo.io/@eric1015/color-select-app](https://expo.io/@eric1015/color-select-app)
 
 ## Rule
